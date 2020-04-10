@@ -9,14 +9,14 @@ function Cell({ value, isHeader, format = NumberUtils.identity }) {
 					: <td className="text-right">{format(value)}</td>;
 }
 
-function Row({ stock: {name, stockBuyingPrice, pricePaidAfterTaxes } }) {
+function Row({ stock: {id, name, stockBuyingPrice, pricePaidAfterTaxes }, fetcher }) {
 
   return (
     <tr>
       <Cell value={name} isHeader={true} />
       <Cell value={stockBuyingPrice} format={NumberUtils.formatCurrency} />
-      <PromiseCell value='currentPrice' format={NumberUtils.formatCurrency}  />
-      <PromiseCell value='stockAppreciation' format={NumberUtils.formatPercentage} />
+      <PromiseCell fetcher={fetcher} action='currentPrice' for={id} format={NumberUtils.formatCurrency}  />
+      <PromiseCell fetcher={fetcher} action='stockAppreciation' for={id} format={NumberUtils.formatPercentage} />
       <Cell value={pricePaidAfterTaxes} format={NumberUtils.formatCurrency} />
     </tr>
   );
@@ -38,7 +38,7 @@ export default class AllStocksTable extends Component {
           </tr>
         </thead>
         <tbody>
-          { this.props.stocks.map(stock => <Row key={stock.id} stock={stock} />) }
+          { this.props.stocks.map(stock => <Row fetcher={this.props.fetcher} key={stock.id} stock={stock} />) }
         </tbody>
       </table>
 		);

@@ -13,15 +13,15 @@ export default class Summary extends Component {
           <tbody>
             <tr>
               <td><b>Total Invested:</b></td>
-              <PromiseCell value='totalInvested' format={NumberUtils.formatCurrency} />
+              <PromiseCell fetcher={this.props.fetcher} action='totalInvested' format={NumberUtils.formatCurrency} />
             </tr>
             <tr>
               <td><b>Real Value:</b></td>
-              <PromiseCell value='allStocksRealValue' format={NumberUtils.formatCurrency} />
+              <PromiseCell fetcher={this.props.fetcher} action='allStocksRealValue' format={NumberUtils.formatCurrency} />
             </tr>
             <tr>
               <td><b>Appreciation:</b></td>
-              <PromiseCell value='totalAppreciation' format={NumberUtils.formatCurrency} />
+              <PromiseCell fetcher={this.props.fetcher} action='totalAppreciation' format={NumberUtils.formatCurrency} />
             </tr>
           </tbody>
         </table>

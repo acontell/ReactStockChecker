@@ -9,9 +9,7 @@ export default class PromiseCell extends Component {
   constructor(props) {
     super(props);
 
-    this.#promise = new Promise(resolve => {
-      setTimeout(resolve, 3000);
-    });
+    this.#promise = props.fetcher.getResult(props.action, props.for);
     this.state = {fullfilled: false};
     this.#format = this.props.format || NumberUtils.identity;
   }
