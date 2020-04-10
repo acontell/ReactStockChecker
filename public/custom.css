@@ -1,0 +1,18 @@
+.bottom-fixed {
+    position: fixed;
+    bottom: 15px;
+    width: 100%;
+}
+
+.breadcrumb-button {
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.spinner-whole {
+    position: fixed;
+    z-index: 1031;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
