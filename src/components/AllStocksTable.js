@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import PromiseCell from './PromiseCell';
+import Cell from './Cell';
 import NumberUtils from './NumberUtils';
-
-function Cell({ value, isHeader, format = NumberUtils.identity }) {
-
-	return isHeader
-					? <th scope="row">{format(value)}</th>
-					: <td className="text-right">{format(value)}</td>;
-}
 
 function Row({ stock }) {
 

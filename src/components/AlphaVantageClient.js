@@ -2,6 +2,7 @@ import axios from 'axios';
 import apiKey from '../private/my_api_key';
 import Stock from './Stock';
 import Portfolio from './Portfolio';
+import Transformer from './Transformer';
 
 // const BIT_MORE_OF_A_MINUTE = 65000;
 const BIT_MORE_OF_A_MINUTE = 5000;
@@ -21,18 +22,16 @@ export default class AlphaVantageClient {
 
   fetchHistoricalData(symbol, index) {
 
-    return new Promise(resolve => setTimeout(() => {
-
-      // axios.get(ApiKey.getDailySeriesUrl(symbol)).then(resolve);
-      console.log('hola2');
-      resolve();
-    }, this.getDelay(index)));
+    return new Promise(resolve =>
+      setTimeout(this.fetchUrl.bind(this, resolve, symbol), this.getDelay(index)));
   }
 
   fetchUrl(resolve, symbol) {
 
     return axios
       .get(this.getDailySeriesUrl(symbol))
+      .then(response => response.data)
+      .then(Transformer.toHistoricalData)
       .then(resolve);
   }
 
@@ -42,7 +41,7 @@ export default class AlphaVantageClient {
   }
 
   getDailySeriesUrl(symbol) {
-
-    return `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full&apikey=${apiKey}&symbol=${symbol}`;
+    return 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo';
+    // return `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full&apikey=${apiKey}&symbol=${symbol}`;
   }
 };

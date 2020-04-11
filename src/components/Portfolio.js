@@ -1,25 +1,26 @@
+import axios from 'axios';
+
 export default class Portfolio {
 
   constructor(stocks) {
     this.stocks = stocks;
   }
 
-  static emptyPortfolio() {
-    return new Portfolio([]);
-  }
-
   getTotalInvested() {
 
-    return new Promise(resolve => setTimeout(resolve, 3000)).then(x => 500);
+    return this.stocks.map(stock => stock.pricePaidAfterTaxes)
+      .reduce((acc, pricePaidAfterTaxes) => acc + pricePaidAfterTaxes, 0);
   }
 
   getAllStocksRealValue() {
 
-    return this.getTotalInvested();
+    return axios.all(this.stocks.map(stock => stock.getCurrentValue()))
+      .then(result => result.reduce((acc, currentValue) => acc + currentValue, 0));
   }
 
   getTotalAppreciation() {
 
-    return this.getTotalInvested();
+    return this.getAllStocksRealValue()
+      .then(realValue => realValue - this.getTotalInvested());
   }
 }
