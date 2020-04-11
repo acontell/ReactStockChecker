@@ -22,7 +22,7 @@ export default class Summary extends Component {
             </tr>
             <tr>
               <td><b>Appreciation:</b></td>
-              <PromiseCell promise={this.props.portfolio.getTotalAppreciation()} format={NumberUtils.formatCurrency} />
+              <PromiseCell promise={this.props.portfolio.getTotalAppreciation()} isColorEnabled={true} format={NumberUtils.formatCurrency} />
             </tr>
           </tbody>
         </table>

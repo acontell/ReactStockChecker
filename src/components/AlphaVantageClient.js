@@ -4,10 +4,16 @@ import Stock from './Stock';
 import Portfolio from './Portfolio';
 import Transformer from './Transformer';
 
-// const BIT_MORE_OF_A_MINUTE = 65000;
-const BIT_MORE_OF_A_MINUTE = 5000;
+const BIT_MORE_OF_A_MINUTE = 65000;
+
 // Five calls per minute up to 500 calls a day
 export default class AlphaVantageClient {
+  #fallbackData;
+
+  constructor(fallbackData) {
+
+    this.#fallbackData = fallbackData;
+  }
 
   fetch(portfolioJson) {
 
@@ -32,7 +38,11 @@ export default class AlphaVantageClient {
       .get(this.getDailySeriesUrl(symbol))
       .then(response => response.data)
       .then(Transformer.toHistoricalData)
-      .then(resolve);
+      .then(resolve)
+      .catch(e => {
+        console.error(`Error retrieving stock with symbol ${symbol}, returning fallback value.`);
+        resolve(this.#fallbackData[symbol]);
+      })
   }
 
   getDelay(index) {
@@ -41,7 +51,7 @@ export default class AlphaVantageClient {
   }
 
   getDailySeriesUrl(symbol) {
-    return 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo';
-    // return `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full&apikey=${apiKey}&symbol=${symbol}`;
+
+    return `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full&apikey=${apiKey}&symbol=${symbol}`;
   }
 };

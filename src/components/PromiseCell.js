@@ -16,8 +16,11 @@ export default class PromiseCell extends Component {
 
 	render() {
 
+    const textColor = this.state.value > 0 ? 'text-success' : 'text-danger';
+    const className = `text-right ${this.props.isColorEnabled ? textColor : ''}`;
+
     return (
-        <td className="text-right">
+        <td className={className}>
           {this.state.fullfilled
             ? this.props.format(this.state.value)
             : <Spinner />
