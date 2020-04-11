@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
 import Spinner from './Spinner';
-import NumberUtils from './NumberUtils';
 
 export default class PromiseCell extends Component {
-  #promise;
-  #format;
 
   constructor(props) {
-    super(props);
 
-    this.#promise = props.fetcher.getResult(props.action, props.for);
+    super(props);
     this.state = {fullfilled: false};
-    this.#format = this.props.format || NumberUtils.identity;
   }
 
   componentDidMount() {
 
-    this.#promise.then(_ => this.setState({fullfilled: true, value: 400}))
+    this.props.promise.then(value => this.setState({fullfilled: true, value}))
   }
 
 	render() {
@@ -24,7 +19,7 @@ export default class PromiseCell extends Component {
     return (
         <td className="text-right">
           {this.state.fullfilled
-            ? this.#format(this.state.value)
+            ? this.props.format(this.state.value)
             : <Spinner />
           }
         </td>
