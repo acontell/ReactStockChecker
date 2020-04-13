@@ -23,7 +23,7 @@ export default class AlphaVantageClient {
     return axios
       .get(this.getDailySeriesUrl(symbol))
       .then(response => response.data)
-      .then(this.#converter.convert)
+      .then(data => this.#converter.convert(data))
       .then(resolve)
       .catch(e => {
         console.error(`Error retrieving stock with symbol ${symbol}, returning fallback value.`);

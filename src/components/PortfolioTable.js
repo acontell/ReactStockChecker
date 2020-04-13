@@ -3,10 +3,10 @@ import PromiseCell from './PromiseCell';
 import Cell from './Cell';
 import NumberUtils from '../utils/NumberUtils';
 
-function Row({ stock }) {
+function Row({ stock, showChart }) {
 
   return (
-    <tr>
+    <tr onClick={showChart}>
       <Cell value={stock.name} isHeader={true} />
       <Cell value={stock.stockBuyingPrice} format={NumberUtils.formatCurrency} />
       <PromiseCell promise={stock.getCurrentPrice()} format={NumberUtils.formatCurrency} />
@@ -18,7 +18,7 @@ function Row({ stock }) {
   );
 }
 
-export default class AllStocksTable extends Component {
+export default class PortfolioTable extends Component {
 
 	render() {
 
@@ -36,7 +36,7 @@ export default class AllStocksTable extends Component {
           </tr>
         </thead>
         <tbody>
-          { this.props.stocks.map(stock => <Row key={stock.symbol} stock={stock} />) }
+          { this.props.stocks.map(stock => <Row key={stock.symbol} stock={stock} showChart={() => this.props.showChart(stock.symbol)} />) }
         </tbody>
       </table>
 		);

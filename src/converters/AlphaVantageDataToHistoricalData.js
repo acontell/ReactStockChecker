@@ -4,17 +4,24 @@ export default class AlphaVantageDataToHistoricalData {
 
   convert(alphaVantageData) {
 
-    return new HistoricalData(
-      alphaVantageData['Meta Data']['3. Last Refreshed'],
-      this.toDailyData(alphaVantageData['Time Series (Daily)']));
+    return new HistoricalData(this.toDailyData(alphaVantageData['Time Series (Daily)']));
   }
 
   toDailyData(alphaVantageData) {
-    
-    return Object.keys(alphaVantageData)
-      .reduce((acc, key) => {
-        acc[key] = +alphaVantageData[key]['4. close'];
-        return acc;
-      }, {});
+
+    return this.getOrderedDates(alphaVantageData)
+      .reduce((acc, date) => acc.concat({
+        date,
+        price: +alphaVantageData[date]['4. close']
+      }), []);
+  }
+
+  getOrderedDates(alphaVantageData) {
+    return Object.keys(alphaVantageData).slice().sort(AlphaVantageDataToHistoricalData.orderByDateAsc);
+  }
+
+  static orderByDateAsc(date1, date2) {
+
+    return date1 > date2 ? 1 : (date1 < date2 ? -1 : 0);
   }
 }

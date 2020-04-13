@@ -1,8 +1,7 @@
 export default class HistoricalData {
 
-  constructor(lastRefreshed, dailyData) {
-    
-    this.lastRefreshed = lastRefreshed;
+  constructor(dailyData) {
+
     this.dailyData = dailyData;
   }
 }
