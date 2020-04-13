@@ -1,48 +1,34 @@
 import axios from 'axios';
 import apiKey from '../private/my_api_key';
-import Stock from './Stock';
-import Portfolio from './Portfolio';
-import Transformer from './Transformer';
 
 const BIT_MORE_OF_A_MINUTE = 65000;
 
 // Five calls per minute up to 500 calls a day
 export default class AlphaVantageClient {
-  #fallbackData;
+  #converter;
 
-  constructor(fallbackData) {
+  constructor(converter) {
 
-    this.#fallbackData = fallbackData;
+    this.#converter = converter;
   }
 
-  fetch(portfolioJson) {
-
-    return new Portfolio(this.addHistoricalDataToStocks(portfolioJson));
-  }
-
-  addHistoricalDataToStocks(portfolioJson) {
-
-    return portfolioJson
-      .map((stock, index) => new Stock(stock, this.fetchHistoricalData(stock.id, index)));
-  }
-
-  fetchHistoricalData(symbol, index) {
+  fetch(symbol, index, fallbackData) {
 
     return new Promise(resolve =>
-      setTimeout(this.fetchUrl.bind(this, resolve, symbol), this.getDelay(index)));
+      setTimeout(this.fetchUrl.bind(this, resolve, symbol, fallbackData), this.getDelay(index)));
   }
 
-  fetchUrl(resolve, symbol) {
+  fetchUrl(resolve, symbol, fallbackData) {
 
     return axios
       .get(this.getDailySeriesUrl(symbol))
       .then(response => response.data)
-      .then(Transformer.toHistoricalData)
+      .then(this.#converter.convert)
       .then(resolve)
       .catch(e => {
         console.error(`Error retrieving stock with symbol ${symbol}, returning fallback value.`);
-        resolve(this.#fallbackData[symbol]);
-      })
+        resolve(fallbackData);
+      });
   }
 
   getDelay(index) {

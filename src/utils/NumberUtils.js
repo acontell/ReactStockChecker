@@ -15,6 +15,7 @@ export default class NumberUtils {
   }
 
   static identity(val) {
+    
     return val;
   }
 }

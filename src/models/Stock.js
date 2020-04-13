@@ -1,6 +1,7 @@
 export default class Stock {
 
   constructor({id, name, nStocks, stockBuyingPrice, expectedPrice, pricePaidAfterTaxes}, historicalData) {
+    
     this.symbol = id;
     this.name = name;
     this.numberOfShares = nStocks;
@@ -26,5 +27,10 @@ export default class Stock {
 
     return this.getCurrentPrice()
       .then(currentPrice => ((currentPrice - this.stockBuyingPrice) / this.stockBuyingPrice));
+  }
+
+  getGainings() {
+    return this.getCurrentValue()
+      .then(currentValue => currentValue - this.pricePaidAfterTaxes);
   }
 }

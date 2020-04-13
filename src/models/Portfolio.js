@@ -18,7 +18,7 @@ export default class Portfolio {
       .then(result => result.reduce((acc, currentValue) => acc + currentValue, 0));
   }
 
-  getTotalAppreciation() {
+  getTotalGainings() {
 
     return this.getAllStocksRealValue()
       .then(realValue => realValue - this.getTotalInvested());

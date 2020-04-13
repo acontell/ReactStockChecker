@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PromiseCell from './PromiseCell';
 import Cell from './Cell';
-import NumberUtils from './NumberUtils';
+import NumberUtils from '../utils/NumberUtils';
 
 export default class Summary extends Component {
 
@@ -21,8 +21,8 @@ export default class Summary extends Component {
               <PromiseCell promise={this.props.portfolio.getAllStocksRealValue()} format={NumberUtils.formatCurrency} />
             </tr>
             <tr>
-              <td><b>Appreciation:</b></td>
-              <PromiseCell promise={this.props.portfolio.getTotalAppreciation()} isColorEnabled={true} format={NumberUtils.formatCurrency} />
+              <td><b>Gainings:</b></td>
+              <PromiseCell promise={this.props.portfolio.getTotalGainings()} isColorEnabled={true} format={NumberUtils.formatCurrency} />
             </tr>
           </tbody>
         </table>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NumberUtils from './NumberUtils';
+import NumberUtils from '../utils/NumberUtils';
 
 export default class Cell extends Component {
 
