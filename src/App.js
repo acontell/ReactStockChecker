@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import StockChecker from './components/StockChecker';
+import Chart from './components/Chart';
 // import AlphaVantageClient from './clients/AlphaVantageClient';
 import FakeClient from './clients/FakeClient';
 import AlphaVantageDataToHistoricalData from './converters/AlphaVantageDataToHistoricalData';
@@ -16,7 +17,8 @@ export default class App extends Component {
 	render() {
 
 		return (
-			<StockChecker portfolio={portfolio} />
+			// <StockChecker portfolio={portfolio} />
+			<Chart />
 		);
 	}
 }
